@@ -77,10 +77,11 @@
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
-<!--            <th>Doctor</th>-->
-<!--            <th>Department</th>-->
-<!--            <th>Patient</th>-->
+            <th>Doctor</th>
+            <th>Department</th>
+            <th>Patient</th>
             <th>Date & Time</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -89,16 +90,27 @@
             <td colspan="4"> No Appointments Available</td>
         </tr>
         <tr th:each="appointment : ${appointments}">
-<!--            <td th:text="${appointment.getDoctor().getFirstName()} + ' ' + ${appointment.getDoctor().getLastName()}"/>-->
-<!--            <td th:text="${appointment.getDoctor().getDepartment().getName()}"/>-->
-<!--            <td th:text="${appointment.getPatient().getFirstName()} + ' ' + ${appointment.getPatient().getLastName()}"/>-->
+            <td th:text="${appointment.getDoctor().getFirstName()} + ' ' + ${appointment.getDoctor().getLastName()}"/>
+            <td th:text="${appointment.getDoctor().getDepartment().getName()}"/>
+            <td th:text="${appointment.getPatient().getFirstName()} + ' ' + ${appointment.getPatient().getLastName()}"/>
             <td th:text="${appointment.getScheduledDate()} + '~' + ${appointment.getScheduledTime()}"/>
-
+            <td th:text="${appointment.getStatus()}"/>
             <td>
-                <!--        <a th:href="@{/appointments/update(id=${appointment.getId()})}"-->
-                <!--           class="btn btn-info btn-sm">-->
-                <!--          Update-->
-                <!--        </a>-->
+                <div style="display: inline" th:if="${appointment.getStatus().toString()} != 'CANCELLED'">
+                <a th:href="@{/appointments/cancel(id=${appointment.getId()})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to cancel this appointment?'))) return false">
+                    Cancel
+                </a>
+                </div>
+
+                <div style="display: inline" th:if="${appointment.getStatus().toString()} != 'CANCELLED'">
+                <a th:href="@{/appointments/update(id=${appointment.getId()})}"
+                   class="btn btn-info btn-sm">
+                  Update
+                </a>
+                </div>
+
                 <a th:href="@{/appointments/delete(id=${appointment.getId()})}"
                    class="btn btn-danger btn-sm"
                    onclick="if (!(confirm('Are you sure you want to delete this appointment?'))) return false">

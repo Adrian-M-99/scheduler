@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <title>Doctors</title>
+    <title>Update Appointment</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 
                 <div class="navbar-collapse collapse" id="mobile_menu">
                     <ul class="nav navbar-nav">
-<!--                        <li class="active"><a href="/">Home</a></li>-->
+                        <!--                        <li class="active"><a href="/">Home</a></li>-->
                         <!--                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us <span class="caret"></span></a>-->
                         <!--                            <ul class="dropdown-menu">-->
                         <!--                                <li><a href="#">About One</a></li>-->
@@ -65,47 +65,81 @@
 </div>
 
 
-<div class="container">
-    <h3>Doctors Directory</h3>
-    <hr>
-    <a th:href="@{/doctors/new}"
-       class="btn btn-primary btn-sm mb-3">
-        Add Doctor
-    </a>
 
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-        <tr>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Appointments</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${doctors == null}">
-            <td colspan="4"> No Doctors Available</td>
-        </tr>
-        <tr th:each="doctor : ${doctors}">
-            <td th:text="${doctor.firstName} + ' ' + ${doctor.lastName}"/>
-            <td th:text="${doctor.getDepartment().getName()}"/>
-            <td th:text="${doctor.countAppointments()}"/>
-            <td>
-                <a th:href="@{/doctors/update(id=${doctor.getId()})}"
-                   class="btn btn-info btn-sm">
-                    Update
-                </a>
-                <a th:href="@{/doctors/delete(id=${doctor.getId()})}"
-                   class="btn btn-danger btn-sm"
-                   onclick="if (!(confirm('Are you sure you want to delete this doctor?'))) return false">
-                    Delete
-                </a>
-            </td>
-        </tr>
-        </tbody>
+<div align="center" class="container">
+    <form class="form-horizontal" th:action="@{/appointments/save}" th:object="${appointment}" method="POST">
+        <fieldset>
 
-    </table>
+            <!-- Form Name -->
+            <legend>Confirm Appointment</legend>
+
+            <!-- used for updates -->
+            <input type="hidden" th:field="${appointment.id}">
+
+            <input type="hidden" th:field="${appointment.scheduledDate}">
+            <span th:text="'Scheduled date: ' + ${appointment.scheduledDate}"></span>
+            <br>
+
+            <input type="hidden" th:field="${appointment.status}">
+
+            <input type="hidden" th:field="${appointment.doctor}">
+            <span th:text="'Selected doctor: ' + ${appointment.doctor.getFirstName()} + ' ' + ${appointment.doctor.getLastName()}"></span>
+            <br>
+
+            <input type="hidden" th:field="${appointment.patient}">
+
+            <span th:text="'Department: ' + ${appointment.doctor.getDepartment().getName()}"></span>
+            <br>
+
+
+<!--            <input type="hidden" th:field="${appointment.scheduledTime}">-->
+
+            <span th:text="'Selected time: ' + ${appointment.scheduledTime}"></span>
+            <br>
+
+<!--            <label>-->
+<!--                <select name="status" th:field="${appointment.status}">-->
+<!--                    <option th:each="status : ${T(com.example.scheduler21.entities.Status).values()}"-->
+<!--                            th:value="${status}"-->
+<!--                            th:text="${status}">-->
+<!--                    </option>-->
+<!--                </select>-->
+<!--            </label>-->
+
+
+            <div>
+                <label>
+                    <div th:switch="${availableSlots}">
+                        <p th:case="null">No available slots for the selected day. Please choose another date!</p>
+                    </div>
+                    <select name="slot" th:field="*{scheduledTime}">
+                        <option th:each="slot : ${availableSlots}"
+                                th:value="${slot}"
+                                th:text="${slot}">
+                        </option>
+                    </select>
+                </label>
+            </div>
+
+
+
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="SubmitButton"></label>
+                <div class="col-md-4">
+                    <button id="SubmitButton" name="SubmitButton" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+
+
 </div>
+
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

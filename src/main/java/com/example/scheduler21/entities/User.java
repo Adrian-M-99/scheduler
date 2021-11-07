@@ -6,8 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @MappedSuperclass
+@Getter
+@Setter
+@NoArgsConstructor
 public abstract class User implements Serializable {
 
     @Id
@@ -35,4 +39,19 @@ public abstract class User implements Serializable {
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
+
+    public User(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.birthday = birthday;
+        this.gender = gender;
+    }
+
+    public long getAge() {
+        return ChronoUnit.YEARS.between(this.birthday, LocalDate.now());
+    }
+
 }

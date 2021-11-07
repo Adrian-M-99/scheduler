@@ -80,7 +80,7 @@
             <th>Name</th>
             <th>Age</th>
             <th>Gender</th>
-<!--            <th>Appointments</th>-->
+            <th>Appointments</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -92,7 +92,7 @@
             <td th:text="${patient.firstName} + ' ' + ${patient.lastName}"/>
             <td th:text="${patient.getAge()}"/>
             <td th:text="${patient.gender}"/>
-<!--            <td th:text="${patient.countAppointments()}"/>-->
+            <td th:text="${patient.countAppointments()}"/>
             <td>
                 <a th:href="@{/patients/update(id=${patient.getId()})}"
                    class="btn btn-info btn-sm">

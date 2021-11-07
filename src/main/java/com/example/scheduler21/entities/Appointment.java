@@ -13,8 +13,6 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Appointment {
 
     @Id
@@ -37,4 +35,32 @@ public class Appointment {
 
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime scheduledTime;
+
+
+    @ManyToOne
+    @JoinColumn(
+            name = "doctor_id",
+            referencedColumnName = "id"
+    )
+    private Doctor doctor;
+
+
+    @ManyToOne
+    @JoinColumn(
+            name = "patient_id",
+            referencedColumnName = "id"
+    )
+    private Patient patient;
+
+    public Appointment() {
+        this.status = Status.SCHEDULED;
+    }
+
+    public Appointment(LocalDate scheduledDate, LocalTime scheduledTime, Doctor doctor, Patient patient) {
+        this.status = Status.SCHEDULED;
+        this.scheduledDate = scheduledDate;
+        this.scheduledTime = scheduledTime;
+        this.doctor = doctor;
+        this.patient = patient;
+    }
 }

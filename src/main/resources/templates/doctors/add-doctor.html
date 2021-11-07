@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Add Doctor</title>
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-target="#mobile_menu" data-toggle="collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    <a href="/" class="navbar-brand">Scheduler</a>
+                </div>
+
+                <div class="navbar-collapse collapse" id="mobile_menu">
+                    <ul class="nav navbar-nav">
+                        <!--                        <li class="active"><a href="/">Home</a></li>-->
+                        <!--                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us <span class="caret"></span></a>-->
+                        <!--                            <ul class="dropdown-menu">-->
+                        <!--                                <li><a href="#">About One</a></li>-->
+                        <!--                                <li><a href="#">About Two</a></li>-->
+                        <!--                                <li><a href="#">About Three</a></li>-->
+                        <!--                                <li><a href="#">About Four</a></li>-->
+                        <!--                                <li><a href="#">About Five</a></li>-->
+                        <!--                                <li><a href="#">About Six</a></li>-->
+                        <!--                            </ul>-->
+                        <!--                        </li>-->
+                        <li><a href="/appointments">Appointments</a></li>
+                        <li><a href="/patients">Patients</a></li>
+                        <li><a href="/doctors">Doctors</a></li>
+                        <li><a href="/departments">Departments</a></li>
+                    </ul>
+                    <!--                    <ul class="nav navbar-nav">-->
+                    <!--                        <li>-->
+                    <!--                            <form action="" class="navbar-form">-->
+                    <!--                                <div class="form-group">-->
+                    <!--                                    <div class="input-group">-->
+                    <!--                                        <input type="search" name="search" id="" placeholder="Search Anything Here..." class="form-control">-->
+                    <!--                                        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </form>-->
+                    <!--                        </li>-->
+                    <!--                    </ul>-->
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span> Login / Sign Up <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Login</a></li>
+                                <li><a href="#">Sign Up</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div align="center" class="container">
+    <form class="form-horizontal" th:action="@{/doctors/save}" th:object="${doctor}" method="POST">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Add new doctor</legend>
+
+            <!-- used for updates -->
+<!--            <input type="hidden" th:field="${doctor.id}">-->
+
+
+
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="firstName">First Name</label>
+                <div class="col-md-4">
+                    <input id="firstName" name="firstName" type="text" placeholder="First Name" class="form-control input-md" required="" th:field="${doctor.firstName}">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="lastname">Last Name</label>
+                <div class="col-md-4">
+                    <input id="lastname" name="lastname" type="text" placeholder="Last Name" class="form-control input-md" required="" th:field="${doctor.lastName}">
+
+                </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="password">Password</label>
+                <div class="col-md-4">
+                    <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required="" th:field="${doctor.password}">
+
+                </div>
+            </div>
+
+            <div class="rendered-form">
+                <div class="formbuilder-date form-group field-date-1625247629933">
+                    <label for="date-1625247629933" class="formbuilder-date-label">Birthday</label>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" name="date-1625247629933" access="false" id="date-1625247629933" th:field="${doctor.birthday}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="email">Email</label>
+                <div class="col-md-4">
+                    <input id="email" name="email" type="text" placeholder="Email" class="form-control input-md" required="" th:field="${doctor.email}">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="phoneNumber">Phone Number</label>
+                <div class="col-md-4">
+                    <input id="phoneNumber" name="phoneNumber" type="text" placeholder="Phone Number" class="form-control input-md" required="" th:field="${doctor.phoneNumber}">
+
+                </div>
+            </div>
+
+            <!--      <div class="form-group">-->
+            <!--        <label class="col-md-4 control-label" for="birthday">Birthday</label>-->
+            <!--        <div class="col-md-4">-->
+            <!--          <input id="dp3" type="text" class="mb-4 col-2 col-xs-4" value="birthday" th:field="${doctor.birthday}">-->
+            <!--        </div>-->
+            <!--      </div>-->
+
+
+            <select name="gender" th:field="${doctor.gender}">
+                <option th:each="gender : ${T(com.example.scheduler21.entities.Gender).values()}"
+                        th:value="${gender}"
+                        th:text="${gender}">
+                </option>
+            </select>
+
+
+
+
+            <select name="department" th:field="${doctor.department}">
+                <option th:each="department : ${departments}"
+                        th:value="${department.getId()}"
+                        th:text="${department.getName()}">
+                </option>
+            </select>
+
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="SubmitButton"></label>
+                <div class="col-md-4">
+                    <button id="SubmitButton" name="SubmitButton" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

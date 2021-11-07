@@ -76,7 +76,7 @@
         <thead class="thead-dark">
         <tr>
             <th>Name</th>
-<!--            <th># of Doctors</th>-->
+            <th># of Doctors</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -86,7 +86,7 @@
         </tr>
         <tr th:each="department : ${departments}">
             <td th:text="${department.getName()}"/>
-<!--            <td th:text="${department.countDoctors()}"/>-->
+            <td th:text="${department.countDoctors()}"/>
 
             <td>
                 <a th:href="@{/departments/update(id=${department.getId()})}"
