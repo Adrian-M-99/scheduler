@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,8 @@ public class AppointmentController {
     @GetMapping
     public String displayAppointments(Model model) {
         List<Appointment> appointments = appointmentService.findAll();
+
+        checkFinishedAppointments(appointments);
 
         model.addAttribute("appointments", appointments);
 
@@ -149,6 +153,14 @@ public class AppointmentController {
         });
 
         return slots;
+    }
+
+    private void checkFinishedAppointments(List<Appointment> appointments) {
+        appointments.forEach((temp) -> {
+            if (temp.getScheduledDate().isBefore(LocalDate.now()) && temp.getScheduledTime().isBefore(LocalTime.now())) {
+                temp.setStatus(Status.FINISHED);
+            }
+        });
     }
 
 }

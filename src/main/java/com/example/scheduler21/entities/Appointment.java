@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -31,6 +32,7 @@ public class Appointment {
     private Status status;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate scheduledDate;
 
     @DateTimeFormat(pattern = "HH:mm")
