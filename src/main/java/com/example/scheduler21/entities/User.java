@@ -4,6 +4,9 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -26,15 +29,23 @@ public abstract class User implements Serializable {
     )
     private Integer id;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
 
+    @Email
     private String email;
+
+    @NotBlank
     private String phoneNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private LocalDate birthday;
 
     @Enumerated(value = EnumType.STRING)
