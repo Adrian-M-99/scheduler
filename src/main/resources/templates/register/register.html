@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Register a new account</p>
+
+            <form action="#" th:action="@{/register}" th:object="${userData}" method="post">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control"  th:field="${userData.firstName}" placeholder="First Name" th:errorclass="is-invalid">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control"  th:field="${userData.lastName}" placeholder="Last Name" th:errorclass="is-invalid">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control"  th:field="${userData.phoneNumber}" placeholder="Phone Number" th:errorclass="is-invalid">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+
+                    <div class="input-group-append">
+                        <div class="col-md-4">
+                            <input type="date" class="form-control" th:field="${userData.birthday}">
+                        </div>
+                    </div>
+                </div>
+
+                <label>
+                    <select name="gender" th:field="${userData.gender}">
+                        <option th:each="gender : ${T(com.example.scheduler21.entities.Gender).values()}"
+                                th:value="${gender}"
+                                th:text="${gender}">
+                        </option>
+                    </select>
+                </label>
+
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" th:field="${userData.email}" placeholder="Email" th:errorclass="is-invalid">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" th:field="${userData.password}" placeholder="Password" th:errorclass="is-invalid">
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Retype password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="SubmitButton"></label>
+                    <div class="col-md-4">
+                        <button id="SubmitButton" name="SubmitButton" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.card -->
+</div>
+</body>
+</html>

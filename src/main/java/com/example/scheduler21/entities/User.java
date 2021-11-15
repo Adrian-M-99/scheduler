@@ -10,11 +10,14 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
 
 @MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
+
 public abstract class User implements Serializable {
 
     @Id
@@ -51,6 +54,13 @@ public abstract class User implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(
+//            name = "role_id",
+//            referencedColumnName = "id"
+//    )
+//    private Role role = new Role();
+
     public User(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
         this.password = password;
         this.firstName = firstName;
@@ -64,5 +74,7 @@ public abstract class User implements Serializable {
     public long getAge() {
         return ChronoUnit.YEARS.between(this.birthday, LocalDate.now());
     }
+
+
 
 }

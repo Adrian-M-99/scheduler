@@ -1,10 +1,7 @@
 package com.example.scheduler21.controllers;
 
-import com.example.scheduler21.entities.Appointment;
-import com.example.scheduler21.entities.Doctor;
-import com.example.scheduler21.entities.Patient;
+import com.example.scheduler21.entities.*;
 
-import com.example.scheduler21.entities.Status;
 import com.example.scheduler21.services.AppointmentService;
 import com.example.scheduler21.services.DoctorService;
 import com.example.scheduler21.services.PatientService;

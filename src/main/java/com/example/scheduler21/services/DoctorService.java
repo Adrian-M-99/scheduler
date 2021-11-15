@@ -32,4 +32,8 @@ public class DoctorService {
     public void deleteById(Integer id) {
         doctorRepository.deleteById(id);
     }
+
+    public Doctor findByEmail(String email) {
+        return doctorRepository.findByEmail(email);
+    }
 }

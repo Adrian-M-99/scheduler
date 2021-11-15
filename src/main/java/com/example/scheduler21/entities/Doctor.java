@@ -28,4 +28,5 @@ public class Doctor extends User {
         return this.appointments.size();
     }
 
+
 }

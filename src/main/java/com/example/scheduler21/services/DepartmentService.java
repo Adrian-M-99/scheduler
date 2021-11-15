@@ -32,4 +32,5 @@ public class DepartmentService{
     public void deleteDepartmentById(Integer id) {
         departmentRepository.deleteById(id);
     }
+
 }
