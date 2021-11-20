@@ -12,12 +12,12 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">Register a new account</p>
 
-            <form action="#" th:action="@{/register}" th:object="${userData}" method="post">
+            <form action="#" th:action="@{/register/process_register}" th:object="${patient}" method="post">
                 <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                     <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control"  th:field="${userData.firstName}" placeholder="First Name" th:errorclass="is-invalid">
+                    <input type="text" class="form-control"  th:field="${patient.firstName}" placeholder="First Name" th:errorclass="is-invalid">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control"  th:field="${userData.lastName}" placeholder="Last Name" th:errorclass="is-invalid">
+                    <input type="text" class="form-control"  th:field="${patient.lastName}" placeholder="Last Name" th:errorclass="is-invalid">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control"  th:field="${userData.phoneNumber}" placeholder="Phone Number" th:errorclass="is-invalid">
+                    <input type="text" class="form-control"  th:field="${patient.phoneNumber}" placeholder="Phone Number" th:errorclass="is-invalid">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -48,13 +48,13 @@
 
                     <div class="input-group-append">
                         <div class="col-md-4">
-                            <input type="date" class="form-control" th:field="${userData.birthday}">
+                            <input type="date" class="form-control" th:field="${patient.birthday}">
                         </div>
                     </div>
                 </div>
 
                 <label>
-                    <select name="gender" th:field="${userData.gender}">
+                    <select name="gender" th:field="${patient.gender}">
                         <option th:each="gender : ${T(com.example.scheduler21.entities.Gender).values()}"
                                 th:value="${gender}"
                                 th:text="${gender}">
@@ -63,7 +63,7 @@
                 </label>
 
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" th:field="${userData.email}" placeholder="Email" th:errorclass="is-invalid">
+                    <input type="email" class="form-control" th:field="${patient.email}" placeholder="Email" th:errorclass="is-invalid">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" th:field="${userData.password}" placeholder="Password" th:errorclass="is-invalid">
+                    <input type="password" class="form-control" th:field="${patient.password}" placeholder="Password" th:errorclass="is-invalid">
 
                     <div class="input-group-append">
                         <div class="input-group-text">
