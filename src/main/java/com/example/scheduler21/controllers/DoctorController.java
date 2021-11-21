@@ -67,9 +67,6 @@ public class DoctorController {
         Doctor doctor = doctorService.findById(id);
         List<Department> departments = departmentService.findAll();
 
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        String encodedPassword = passwordEncoder.encode(doctor.getPassword());
-//        doctor.setPassword(encodedPassword);
 
         model.addAttribute("departments", departments);
         model.addAttribute("doctor", doctor);

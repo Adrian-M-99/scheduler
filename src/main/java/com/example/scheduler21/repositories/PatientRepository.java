@@ -13,6 +13,8 @@ import java.util.List;
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
     Patient findByEmail(String email);
+
+    Patient findByVerificationCode(String code);
 }
 
 

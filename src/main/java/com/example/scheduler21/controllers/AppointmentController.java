@@ -104,11 +104,23 @@ public class AppointmentController {
     }
 
 
-    @PostMapping("/confirm-update")
-    public String confirmAppointment(Appointment appointment, Model model, Doctor doctor) {
+//    @PostMapping("/confirm-update")
+//    public String confirmAppointment(Appointment appointment, Model model, Doctor doctor) {
+//
+//        model.addAttribute("availableSlots", getSlots(appointment, doctor));
+//        model.addAttribute("appointment", appointment);
+//
+//        return "appointments/update-appointment-2";
+//    }
 
-        model.addAttribute("availableSlots", getSlots(appointment, doctor));
-        model.addAttribute("appointment", appointment);
+        @PostMapping("/confirm-update")
+        public String confirmAppointment(@RequestParam("id") Integer id, Model model, Appointment appointment) {
+        Appointment temp_appointment = appointmentService.findById(appointment.getId());
+
+        temp_appointment.setDoctor(appointment.getDoctor());
+
+        model.addAttribute("availableSlots", getSlots(appointment, temp_appointment.getDoctor()));
+        model.addAttribute("appointment", temp_appointment);
 
         return "appointments/update-appointment-2";
     }

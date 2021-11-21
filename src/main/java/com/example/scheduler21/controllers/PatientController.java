@@ -49,7 +49,7 @@ public class PatientController {
         String encodedPassword = passwordEncoder.encode(patient.getPassword());
         patient.setPassword(encodedPassword);
 
-        patientService.savePatient(patient);
+        patientService.save(patient);
 
         return "redirect:/patients";
     }
