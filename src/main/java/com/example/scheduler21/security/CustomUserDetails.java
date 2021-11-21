@@ -1,10 +1,17 @@
 package com.example.scheduler21.security;
 
+import com.example.scheduler21.entities.Gender;
 import com.example.scheduler21.entities.Patient;
+import com.example.scheduler21.entities.Role;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -16,7 +23,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Role role = patient.getRole();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        authorities.add(new SimpleGrantedAuthority(role.toString()));
+
+        return authorities;
     }
 
     @Override
@@ -47,5 +59,30 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    public String getFirstName() {
+        return this.patient.getFirstName();
+    }
+
+    public String getLastName() {
+        return this.patient.getLastName();
+    }
+
+    public String getPhoneNumber() {
+        return this.patient.getPhoneNumber();
+    }
+
+    public LocalDate getBirthday() {
+        return this.patient.getBirthday();
+    }
+
+    public Gender getGender() {
+        return this.patient.getGender();
+    }
+
+    public long getAge() {
+        return this.patient.getAge();
     }
 }

@@ -17,7 +17,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public abstract class User implements Serializable {
 
     @Id
@@ -32,7 +31,7 @@ public abstract class User implements Serializable {
     )
     private Integer id;
 
-    @NotBlank
+    @NotNull
     private String password;
 
     @NotBlank
@@ -54,12 +53,14 @@ public abstract class User implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(
-//            name = "role_id",
-//            referencedColumnName = "id"
-//    )
-//    private Role role = new Role();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "user_role",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//  )
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     public User(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
         this.password = password;

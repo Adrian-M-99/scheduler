@@ -1,6 +1,7 @@
 package com.example.scheduler21.security;
 
 import com.example.scheduler21.entities.Patient;
+import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.services.PatientService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class RegistrationController {
         String encodedPassword = passwordEncoder.encode(patient.getPassword());
         patient.setPassword(encodedPassword);
 
+        patient.setRole(Role.PATIENT);
         patientService.save(patient);
 
         return "register/register_success";

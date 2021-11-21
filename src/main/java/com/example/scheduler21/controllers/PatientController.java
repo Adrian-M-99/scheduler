@@ -1,7 +1,9 @@
 package com.example.scheduler21.controllers;
 
 import com.example.scheduler21.entities.Patient;
+import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.services.PatientService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +43,12 @@ public class PatientController {
 
     @PostMapping("/save")
     public String savePatient(Patient patient) {
+        patient.setRole(Role.PATIENT);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(patient.getPassword());
+        patient.setPassword(encodedPassword);
+
         patientService.savePatient(patient);
 
         return "redirect:/patients";

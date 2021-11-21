@@ -2,8 +2,10 @@ package com.example.scheduler21.controllers;
 
 import com.example.scheduler21.entities.Department;
 import com.example.scheduler21.entities.Doctor;
+import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.services.DepartmentService;
 import com.example.scheduler21.services.DoctorService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("doctors")
@@ -48,6 +51,12 @@ public class DoctorController {
 
     @PostMapping("/save")
     public String saveDoctor(Doctor doctor) {
+        doctor.setRole(Role.STAFF);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(doctor.getPassword());
+        doctor.setPassword(encodedPassword);
+
         doctorService.saveDoctor(doctor);
 
         return "redirect:/doctors";
@@ -58,7 +67,9 @@ public class DoctorController {
         Doctor doctor = doctorService.findById(id);
         List<Department> departments = departmentService.findAll();
 
-
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String encodedPassword = passwordEncoder.encode(doctor.getPassword());
+//        doctor.setPassword(encodedPassword);
 
         model.addAttribute("departments", departments);
         model.addAttribute("doctor", doctor);

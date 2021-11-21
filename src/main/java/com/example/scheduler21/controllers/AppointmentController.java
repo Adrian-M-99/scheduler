@@ -20,6 +20,8 @@ import java.util.List;
 
 
 
+//TODO: to work on listing and updating appointments
+
 @Controller
 @RequestMapping("appointments")
 public class AppointmentController {
