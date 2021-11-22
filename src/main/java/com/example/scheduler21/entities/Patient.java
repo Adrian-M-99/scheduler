@@ -19,11 +19,15 @@ public class Patient extends User{
     @Column(length = 32)
     private String verificationCode;
 
+    @Column(length = 32)
+    private String resetPasswordToken;
+
     private boolean enabled;
 
-    public Patient(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender, String verificationCode, boolean enabled) {
+    public Patient(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender, String verificationCode, String resetPasswordToken, boolean enabled) {
         super(password, firstName, lastName, email, phoneNumber, birthday, gender);
         this.verificationCode = verificationCode;
+        this.resetPasswordToken = resetPasswordToken;
         this.enabled = enabled;
     }
 

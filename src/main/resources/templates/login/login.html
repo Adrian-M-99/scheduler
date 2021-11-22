@@ -35,8 +35,11 @@
                             <label for="remember-me" class="text-info"><span>Remember me</span><span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
                             <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                         </div>
+                        <div id="forgot-password-link" class="text-right">
+                            <a th:href="@{/forgot_password}">Forgot your password?</a>
+                        </div>
                         <div id="register-link" class="text-right">
-                            <a href="/register" class="text-info">Register here</a>
+                            <a th:href="@{/register}" class="text-info">Register here</a>
                         </div>
                     </form>
                 </div>

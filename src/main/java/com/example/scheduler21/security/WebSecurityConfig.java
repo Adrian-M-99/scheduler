@@ -60,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/profile").hasAnyAuthority("PATIENT")
                 .antMatchers("/").hasAnyAuthority("PATIENT","STAFF", "ROLE_ADMIN")
                 .antMatchers("/register/**").permitAll()
+                .antMatchers("/forgot_password").permitAll()
+                .antMatchers("/reset_password").permitAll()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()

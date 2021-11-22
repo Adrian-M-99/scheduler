@@ -7,6 +7,7 @@ import com.example.scheduler21.repositories.PatientRepository;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,9 @@ public class PatientService {
     public void save(Patient patient) {
         patientRepository.save(patient);
     }
+
+
+    //Email verification
 
     public Patient findByVerificationCode(String code) {
         return patientRepository.findByVerificationCode(code);
@@ -111,6 +115,58 @@ public class PatientService {
             return true;
         }
 
+    }
+
+
+    //Reset password email
+
+    public Patient findByResetPasswordToken(String token) {
+        return patientRepository.findByResetPasswordToken(token);
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws PatientNotFoundException {
+        Patient patient = findByEmail(email);
+
+        if (patient != null) {
+            patient.setResetPasswordToken(token);
+            save(patient);
+        } else
+            throw new PatientNotFoundException();
+
+    }
+
+    public void updatePassword(Patient patient, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        patient.setPassword(encodedPassword);
+        patient.setResetPasswordToken(null);
+
+        save(patient);
+    }
+
+    public void sendEmail(String recipientEmail, String link) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("my.spring.project.test.email@gmail.com", "Scheduler");
+        helper.setTo(recipientEmail);
+
+        String subject = "Here's the link to reset your password";
+
+        String content = "<p>Hello,</p>"
+                + "<p>You have requested to reset your password.</p>"
+                + "<p>Click the link below to change your password:</p>"
+                + "<p><a href=\"" + link + "\">Change my password</a></p>"
+                + "<br>"
+                + "<p>Ignore this email if you do remember your password, "
+                + "or you have not made the request.</p>";
+
+        helper.setSubject(subject);
+
+        helper.setText(content, true);
+
+        javaMailSender.send(message);
     }
 
 }
