@@ -1,5 +1,6 @@
 package com.example.scheduler21.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +21,12 @@ import static java.lang.invoke.VarHandle.AccessMode.GET;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
+
+    @Autowired
+    private CustomLoginFailureHandler customLoginFailureHandler;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -68,6 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .defaultSuccessUrl("/")
+                    .failureHandler(customLoginFailureHandler)
+                    .successHandler(customLoginSuccessHandler)
                     .permitAll()
                 .and()
                 .rememberMe().tokenValiditySeconds(24 * 60 * 60)

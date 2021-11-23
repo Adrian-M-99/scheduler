@@ -58,7 +58,6 @@ public class ForgotPasswordController {
 
         if (patient == null) {
             model.addAttribute("message", "Invalid Token");
-            return "forgot_password/reset_password";
         }
 
         return "forgot_password/reset_password";

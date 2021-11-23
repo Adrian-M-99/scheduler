@@ -5,6 +5,8 @@ import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.exceptions.PatientNotFoundException;
 import com.example.scheduler21.repositories.PatientRepository;
 import net.bytebuddy.utility.RandomString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,20 +16,28 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class PatientService {
 
-    private final PatientRepository patientRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender javaMailSender;
+    public static final int MAX_FAILED_ATTEMPTS = 5;
 
-    public PatientService(PatientRepository patientRepository, PasswordEncoder passwordEncoder, JavaMailSender javaMailSender) {
-        this.patientRepository = patientRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.javaMailSender = javaMailSender;
-    }
+    private static final long LOCK_TIME_DURATION = 60 * 1000; // 4 hours
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}")
+    private String emailAddress;
+
 
     public List<Patient> findAll() {
         return patientRepository.findAll();
@@ -74,7 +84,6 @@ public class PatientService {
 
     private void sendVerificationEmail(Patient patient, String url) throws UnsupportedEncodingException, MessagingException {
         String toAddress = patient.getEmail();
-        String fromAddress = "my.spring.project.test.email@gmail.com";
         String senderName = "Scheduler";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
@@ -87,7 +96,7 @@ public class PatientService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom(fromAddress, senderName);
+        helper.setFrom(emailAddress, senderName);
         helper.setTo(toAddress);
         helper.setSubject(subject);
 
@@ -149,10 +158,10 @@ public class PatientService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom("my.spring.project.test.email@gmail.com", "Scheduler");
+        helper.setFrom(emailAddress, "Scheduler");
         helper.setTo(recipientEmail);
 
-        String subject = "Here's the link to reset your password";
+        String subject = "Reset your password";
 
         String content = "<p>Hello,</p>"
                 + "<p>You have requested to reset your password.</p>"
@@ -169,4 +178,43 @@ public class PatientService {
         javaMailSender.send(message);
     }
 
+
+    //Limit login attempts
+
+    public void updateFailedAttempts(int failedAttempts, String email) {
+        patientRepository.updateFailedAttempts(failedAttempts, email);
+    }
+
+    public void increaseFailedAttempts(Patient patient) {
+        int newFailAttempts = patient.getFailedAttempts() + 1;
+        updateFailedAttempts(newFailAttempts, patient.getEmail());
+    }
+
+    public void resetFailedAttempts(String email) {
+        updateFailedAttempts(0, email);
+    }
+
+    public void lock(Patient patient) {
+        patient.setAccountNonLocked(false);
+        patient.setLockTime(new Date());
+
+        save(patient);
+    }
+
+    public boolean unlockWhenTimeExpired(Patient patient) {
+        long lockTimeInMillis = patient.getLockTime().getTime();
+        long currentTimeInMillis = System.currentTimeMillis();
+
+        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
+            patient.setAccountNonLocked(true);
+            patient.setLockTime(null);
+            patient.setFailedAttempts(0);
+
+            save(patient);
+
+            return true;
+        }
+
+        return false;
+    }
 }

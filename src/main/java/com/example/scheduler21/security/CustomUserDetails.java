@@ -48,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return patient.isAccountNonLocked();
     }
 
     @Override
@@ -84,5 +84,9 @@ public class CustomUserDetails implements UserDetails {
 
     public long getAge() {
         return this.patient.getAge();
+    }
+
+    public Patient getPatient() {
+        return patient;
     }
 }
