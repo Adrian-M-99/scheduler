@@ -24,7 +24,7 @@ public class PatientService {
 
     public static final int MAX_FAILED_ATTEMPTS = 5;
 
-    private static final long LOCK_TIME_DURATION = 15 * 1000; // 4 hours
+    private static final long LOCK_TIME_DURATION = 4 * 60 * 60 * 1000; // 4 hours
 
     @Autowired
     private PatientRepository patientRepository;
@@ -217,4 +217,19 @@ public class PatientService {
 
         return false;
     }
+
+
+    //Password expiration
+
+    public void changePassword(Patient patient, String newPassword) {
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        patient.setPassword(encodedPassword);
+
+        patient.setPasswordChangedTime(new Date());
+
+        save(patient);
+    }
+
+
+
 }

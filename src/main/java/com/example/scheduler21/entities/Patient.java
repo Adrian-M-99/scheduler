@@ -16,6 +16,9 @@ import java.util.Set;
 @Setter
 public class Patient extends User{
 
+    private static final long PASSWORD_EXPIRATION_TIME = 3L * 30L * 24L * 60L * 60L * 1000L; // 3 months
+
+
     @Column(length = 32)
     private String verificationCode;
 
@@ -30,14 +33,19 @@ public class Patient extends User{
 
     private Date lockTime;
 
+    private Date passwordChangedTime;
+
+
     public Patient() {
         this.accountNonLocked = true;
+        this.passwordChangedTime = new Date(System.currentTimeMillis());
     }
 
     public Patient(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
         super(password, firstName, lastName, email, phoneNumber, birthday, gender);
         this.accountNonLocked = true;
         this.failedAttempts = 0;
+        this.passwordChangedTime = new Date(System.currentTimeMillis());
     }
 
     @OneToMany(mappedBy = "patient")
@@ -45,6 +53,17 @@ public class Patient extends User{
 
     public int countAppointments() {
         return this.appointments.size();
+    }
+
+
+    public boolean isPasswordExpired() {
+        if (this.passwordChangedTime == null)
+            return false;
+
+        long currentTime = System.currentTimeMillis();
+        long lastChangedTime = this.passwordChangedTime.getTime();
+
+        return currentTime > lastChangedTime + PASSWORD_EXPIRATION_TIME;
     }
 
 }
