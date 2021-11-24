@@ -22,9 +22,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomUserDetails userDetails =  (CustomUserDetails) authentication.getPrincipal();
-        Patient patient = userDetails.getPatient();
-        if (patient.getFailedAttempts() > 0) {
-            patientService.resetFailedAttempts(patient.getEmail());
+
+        if (userDetails.getPatient().getFailedAttempts() > 0) {
+            patientService.resetFailedAttempts(userDetails.getUsername());
         }
 
         super.onAuthenticationSuccess(request, response, authentication);

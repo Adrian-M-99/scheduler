@@ -21,7 +21,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String email = request.getParameter("email");
+        String email = request.getParameter("username");
         Patient patient = patientService.findByEmail(email);
 
         if (patient != null) {

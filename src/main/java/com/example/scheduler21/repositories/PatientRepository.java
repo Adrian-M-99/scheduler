@@ -20,7 +20,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
     Patient findByResetPasswordToken(String token);
 
-    @Query(value = "UPDATE patient p SET p.failed_attempts = ?1 WHERE p.email = ?2", nativeQuery = true)
+    @Query(value = "UPDATE Patient p SET p.failedAttempts = ?1 WHERE p.email = ?2")
     @Modifying
     void updateFailedAttempts(int failedAttempts, String email);
 }

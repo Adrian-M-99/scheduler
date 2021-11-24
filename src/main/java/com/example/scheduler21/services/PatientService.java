@@ -24,7 +24,7 @@ public class PatientService {
 
     public static final int MAX_FAILED_ATTEMPTS = 5;
 
-    private static final long LOCK_TIME_DURATION = 60 * 1000; // 4 hours
+    private static final long LOCK_TIME_DURATION = 15 * 1000; // 4 hours
 
     @Autowired
     private PatientRepository patientRepository;

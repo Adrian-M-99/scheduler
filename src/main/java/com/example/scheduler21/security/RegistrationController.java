@@ -1,10 +1,8 @@
 package com.example.scheduler21.security;
 
 import com.example.scheduler21.entities.Patient;
-import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.services.PatientService;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +33,6 @@ public class RegistrationController {
     @PostMapping("/process_register")
     public String processRegister(Patient patient, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
         patientService.register(patient, getUrl(request));
-
-        patientService.save(patient);
 
         return "register/register_success";
     }
