@@ -3,9 +3,7 @@ package com.example.scheduler21.entities;
 import lombok.*;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -35,10 +33,13 @@ public class Patient extends User{
 
     private Date passwordChangedTime;
 
+    @Enumerated(EnumType.STRING)
+    private LoginProvider loginProvider;
 
     public Patient() {
         this.accountNonLocked = true;
         this.passwordChangedTime = new Date(System.currentTimeMillis());
+        this.setRole(Role.PATIENT);
     }
 
     public Patient(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
@@ -46,6 +47,7 @@ public class Patient extends User{
         this.accountNonLocked = true;
         this.failedAttempts = 0;
         this.passwordChangedTime = new Date(System.currentTimeMillis());
+        this.setRole(Role.PATIENT);
     }
 
     @OneToMany(mappedBy = "patient")

@@ -13,6 +13,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
+//TODO: validators are throwing off the OAuth2; to come back to this
+
 @MappedSuperclass
 @Getter
 @Setter
@@ -31,23 +33,22 @@ public abstract class User implements Serializable {
     )
     private Integer id;
 
-    @NotNull
     private String password;
 
-    @NotBlank
+//    @NotBlank
     private String firstName;
 
-    @NotBlank
+//    @NotBlank
     private String lastName;
 
-    @Email
+//    @Email
     private String email;
 
-    @NotBlank
+//    @NotBlank
     private String phoneNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull
+//    @NotNull
     private LocalDate birthday;
 
     @Enumerated(value = EnumType.STRING)

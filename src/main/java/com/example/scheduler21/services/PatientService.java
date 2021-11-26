@@ -1,5 +1,6 @@
 package com.example.scheduler21.services;
 
+import com.example.scheduler21.entities.LoginProvider;
 import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.exceptions.PatientNotFoundException;
@@ -75,6 +76,7 @@ public class PatientService {
         patient.setVerificationCode(randomVerificationCode);
         patient.setEnabled(false);
 
+        //TODO: to delete if needed
         patient.setRole(Role.PATIENT);
 
         save(patient);
@@ -231,5 +233,19 @@ public class PatientService {
     }
 
 
+    //OAuth2
+
+    public void processOnOAuthPostLogin(String email) {
+        Patient patient = findByEmail(email);
+
+        if (patient == null) {
+            Patient newPatient = new Patient();
+            newPatient.setEmail(email);
+            newPatient.setLoginProvider(LoginProvider.GOOGLE);
+            newPatient.setEnabled(true);
+
+            save(newPatient);
+        }
+    }
 
 }

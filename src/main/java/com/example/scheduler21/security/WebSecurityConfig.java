@@ -1,5 +1,7 @@
 package com.example.scheduler21.security;
 
+import com.example.scheduler21.security.oauth2.CustomOAuth2UserService;
+import com.example.scheduler21.security.oauth2.OAuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,12 @@ import static java.lang.invoke.VarHandle.AccessMode.GET;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private OAuthSuccessHandler oAuthSuccessHandler;
+
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
     private CustomLoginSuccessHandler customLoginSuccessHandler;
@@ -65,11 +73,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/patients/**").hasAnyAuthority("STAFF", "ROLE_ADMIN")
                 .antMatchers("/appointments/**").hasAnyAuthority("STAFF", "ROLE_ADMIN")
                 .antMatchers("/profile").hasAnyAuthority("PATIENT")
-                .antMatchers("/").hasAnyAuthority("PATIENT","STAFF", "ROLE_ADMIN")
+//                .antMatchers("/").hasAnyAuthority("PATIENT","STAFF", "ROLE_ADMIN")
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/forgot_password").permitAll()
                 .antMatchers("/reset_password").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/", "/login", "/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -85,6 +93,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .logoutSuccessUrl("/").permitAll()
                     .deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true);
+                    .invalidateHttpSession(true)
+                .and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .successHandler(oAuthSuccessHandler)
+                    .userInfoEndpoint()
+                    .userService(customOAuth2UserService);
     }
 }

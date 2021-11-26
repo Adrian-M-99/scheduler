@@ -21,6 +21,8 @@
             <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
         </div>
 
+        <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
+
         <form th:action="@{/login}" method="post">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">

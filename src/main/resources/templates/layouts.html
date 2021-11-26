@@ -30,10 +30,10 @@
                         <!--                                <li><a href="#">About Six</a></li>-->
                         <!--                            </ul>-->
                         <!--                        </li>-->
-                        <li><a href="/appointments">Appointments</a></li>
-                        <li><a href="/patients">Patients</a></li>
-                        <li><a href="/doctors">Doctors</a></li>
-                        <li><a href="/departments">Departments</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/appointments">Appointments</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/patients">Patients</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/doctors">Doctors</a></li>
+                        <li sec:authorize="isAuthenticated()"><a href="/departments">Departments</a></li>
                     </ul>
                     <!--                    <ul class="nav navbar-nav">-->
                     <!--                        <li>-->
