@@ -49,6 +49,9 @@
                     <!--                    </ul>-->
 
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/contact-us"><span class=""></span>Contact Us</a>
+                        </li>
                         <li sec:authorize="! hasRole('ROLE_ADMIN') && isAuthenticated()">
                             <a href="/profile"><span class="glyphicon glyphicon-user"></span> Profile</a>
                         </li>
