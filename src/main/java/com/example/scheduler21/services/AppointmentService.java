@@ -32,6 +32,10 @@ public class AppointmentService {
         return appointmentRepository.getAppointmentsForDoctor(doctorId, scheduledDate, status);
     }
 
+    public List<Appointment> getAllAppointmentsForDoctor(Integer id) {
+        return appointmentRepository.getAllAppointmentsForDoctor(id);
+    }
+
     public void saveAppointment(Appointment appointment) {
         appointmentRepository.save(appointment);
     }

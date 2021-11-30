@@ -2,6 +2,7 @@ package com.example.scheduler21.entities;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 //TODO: validators are throwing off the OAuth2; to come back to this
+
 
 @MappedSuperclass
 @Getter

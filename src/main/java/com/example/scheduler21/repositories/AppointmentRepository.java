@@ -20,6 +20,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("select a from Appointment a where a.status = ?3 and a.scheduledDate = ?2 and a.doctor.id = ?1")
     List<Appointment> getAppointmentsForDoctor(Integer doctorId, LocalDate scheduledDate, Status status);
 
+    @Query("select a from Appointment  a where a.doctor.id = ?1")
+    List<Appointment> getAllAppointmentsForDoctor(Integer id);
+
     @Transactional
     @Modifying
     @Query("update Appointment a set a.status = 'CANCELLED' where a.id = ?1")

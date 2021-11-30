@@ -3,8 +3,11 @@ package com.example.scheduler21.controllers;
 import com.example.scheduler21.entities.Appointment;
 import com.example.scheduler21.entities.CalendarEvent;
 import com.example.scheduler21.exceptions.BadDateFormatException;
+import com.example.scheduler21.security.CustomUserDetails;
 import com.example.scheduler21.services.AppointmentService;
+import com.example.scheduler21.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -16,12 +19,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//TODO: to implement MyAppointments for every doctor
+
 @RestController
 @RequestMapping("api")
 public class ApiController {
 
     @Autowired
     private AppointmentService appointmentService;
+
 
     @GetMapping("/appointments/all")
     public List<CalendarEvent> appointments() {
