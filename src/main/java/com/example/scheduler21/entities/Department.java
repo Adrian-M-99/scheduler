@@ -1,5 +1,6 @@
 package com.example.scheduler21.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class Department {
 //            referencedColumnName = "id"
 //    )
     @OneToMany(mappedBy = "department")
+    @JsonManagedReference
     private List<Doctor> doctors;
 
 

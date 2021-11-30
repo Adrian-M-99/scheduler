@@ -1,5 +1,6 @@
 package com.example.scheduler21.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ public class Appointment {
             name = "doctor_id",
             referencedColumnName = "id"
     )
+    @JsonBackReference
     private Doctor doctor;
 
 
@@ -52,6 +54,7 @@ public class Appointment {
             name = "patient_id",
             referencedColumnName = "id"
     )
+    @JsonBackReference
     private Patient patient;
 
     public Appointment() {

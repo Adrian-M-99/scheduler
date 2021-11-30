@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -23,4 +24,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Modifying
     @Query("update Appointment a set a.status = 'CANCELLED' where a.id = ?1")
     void cancelById(Integer id);
+
+    List<Appointment> findByScheduledDateBetween(LocalDate startDate, LocalDate endDate);
 }

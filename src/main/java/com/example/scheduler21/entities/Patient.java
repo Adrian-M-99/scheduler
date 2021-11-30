@@ -1,5 +1,6 @@
 package com.example.scheduler21.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -51,6 +52,7 @@ public class Patient extends User{
     }
 
     @OneToMany(mappedBy = "patient")
+    @JsonBackReference
     private List<Appointment> appointments;
 
     public int countAppointments() {

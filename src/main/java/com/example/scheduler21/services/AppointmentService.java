@@ -47,4 +47,8 @@ public class AppointmentService {
     public void cancelById(Integer id) {
         appointmentRepository.cancelById(id);
     }
+
+    public List<Appointment> findByScheduledDateBetween(LocalDate startDate, LocalDate endDate) {
+        return appointmentRepository.findByScheduledDateBetween(startDate, endDate);
+    }
 }

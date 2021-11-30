@@ -74,6 +74,9 @@ public abstract class User implements Serializable {
     }
 
     public long getAge() {
+        if (this.birthday == null)
+            return 0;
+        else
         return ChronoUnit.YEARS.between(this.birthday, LocalDate.now());
     }
 
