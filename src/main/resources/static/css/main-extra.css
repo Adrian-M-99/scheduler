@@ -1,0 +1,8 @@
+.fc {
+    padding: 1rem 25rem;
+    height: 80vh;
+}
+
+.fc-daygrid-event {
+    white-space: initial;
+}

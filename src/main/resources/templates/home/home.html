@@ -9,12 +9,29 @@
 
     <title>Home</title>
 
-    <!--Moment-->
-    <script type="text/javascript" th:src="@{/js/moment.js}"></script>
-    <!--FullCalendar-->
-    <script type="text/javascript" th:src="@{/js/fullcalendar.js}"></script>
-    <!-- Fullcalendar CSS -->
-    <link rel="stylesheet" th:href="@{/css/fullcalendar.css}"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main-extra.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: '/api/appointments/all',
+                allDay: false,
+                firstDay: 1,
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12:false
+                }
+            });
+            calendar.render();
+        });
+
+    </script>
 
 </head>
 
@@ -22,47 +39,8 @@
 
 <nav th:replace="layouts :: navbar"></nav>
 
+<div id='calendar'></div>
 
-<div class="row mt-3">
-    <div class="col">
 
-    </div>
-    <div class="col-10">
-        <div id='calendar'></div>
-    </div>
-    <div class="col">
-
-    </div>
-</div>
-
-<script th:inline="javascript">
-    $(function () {
-        $('#calendar').fullCalendar({
-            defaultView: 'agendaWeek',
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek'
-            },
-            allDaySlot: false,
-            minTime: "09:00:00",
-            maxTime: "17:00:00",
-            timeFormat: 'HH:mm', // uppercase H for 24-hour clock,
-            firstDay: 1,
-            resources: '/api/appointments/all'
-
-            // eventSources: [
-            //
-            //     {
-            //         url: '/api/appointments/all',
-            //         color: 'yellow',
-            //         textColor: 'black'
-            //
-            //     }
-            // ]
-        })
-
-    });
-</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.example.scheduler21.controllers;
 
 import com.example.scheduler21.entities.Appointment;
+import com.example.scheduler21.entities.CalendarEvent;
 import com.example.scheduler21.exceptions.BadDateFormatException;
 import com.example.scheduler21.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +24,21 @@ public class ApiController {
     private AppointmentService appointmentService;
 
     @GetMapping("/appointments/all")
-    public List<Appointment> appointments() {
-        return appointmentService.findAll();
+    public List<CalendarEvent> appointments() {
+        List<Appointment> appointments = appointmentService.findAll();
+
+        List<CalendarEvent> calendarEvents = new ArrayList<>();
+
+        for (Appointment temp : appointments) {
+            calendarEvents.add(CalendarEvent.builder()
+                    .id(temp.getId())
+                    .title(temp.getDoctor().getFirstName() + " " + temp.getDoctor().getLastName() + " -- " + temp.getPatient().getFirstName() + " " + temp.getPatient().getLastName())
+                    .start(LocalDateTime.of(temp.getScheduledDate(), temp.getScheduledTime()))
+                    .end(LocalDateTime.of(temp.getScheduledDate(), temp.getScheduledTime()).plusMinutes(30))
+                    .build());
+        }
+
+        return calendarEvents;
     }
 
     @GetMapping("/appointments")
