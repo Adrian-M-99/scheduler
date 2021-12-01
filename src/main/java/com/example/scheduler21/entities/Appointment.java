@@ -43,7 +43,7 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(
             name = "doctor_id",
-            referencedColumnName = "id"
+            referencedColumnName = "user_id"
     )
     @JsonBackReference
     private Doctor doctor;
@@ -52,7 +52,7 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(
             name = "patient_id",
-            referencedColumnName = "id"
+            referencedColumnName = "user_id"
     )
     @JsonBackReference
     private Patient patient;

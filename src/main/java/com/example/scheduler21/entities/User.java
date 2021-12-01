@@ -2,26 +2,22 @@ package com.example.scheduler21.entities;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Set;
+
 
 //TODO: validators are throwing off the OAuth2; to come back to this
 
-
-@MappedSuperclass
+@Entity
 @Getter
 @Setter
-@NoArgsConstructor
-public abstract class User implements Serializable {
+@Inheritance(strategy=InheritanceType.JOINED)
+@Table(name = "users")
+public class User implements Serializable {
 
     @Id
     @SequenceGenerator(
@@ -64,6 +60,9 @@ public abstract class User implements Serializable {
 //  )
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    public User() {
+    }
 
     public User(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
         this.password = password;

@@ -2,6 +2,7 @@ package com.example.scheduler21.controllers;
 
 import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.entities.Role;
+import com.example.scheduler21.entities.User;
 import com.example.scheduler21.services.PatientService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;

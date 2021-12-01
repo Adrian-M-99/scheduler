@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@PrimaryKeyJoinColumn(name="user_id")
 public class Patient extends User{
 
     private static final long PASSWORD_EXPIRATION_TIME = 3L * 30L * 24L * 60L * 60L * 1000L; // 3 months
@@ -42,6 +43,7 @@ public class Patient extends User{
         this.passwordChangedTime = new Date(System.currentTimeMillis());
         this.setRole(Role.PATIENT);
     }
+
 
     public Patient(String password, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, Gender gender) {
         super(password, firstName, lastName, email, phoneNumber, birthday, gender);
