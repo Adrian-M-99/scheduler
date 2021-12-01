@@ -72,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/doctors/**").hasAnyAuthority("STAFF", "ROLE_ADMIN")
                 .antMatchers("/patients/**").hasAnyAuthority("STAFF", "ROLE_ADMIN")
                 .antMatchers("/appointments/**").hasAnyAuthority("STAFF", "ROLE_ADMIN")
-                .antMatchers("/profile").hasAnyAuthority("PATIENT")
+                .antMatchers("/profile").hasAnyAuthority("PATIENT", "STAFF")
 //                .antMatchers("/").hasAnyAuthority("PATIENT","STAFF", "ROLE_ADMIN")
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/forgot_password").permitAll()

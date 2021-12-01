@@ -23,8 +23,9 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomUserDetails userDetails =  (CustomUserDetails) authentication.getPrincipal();
 
-        if (userDetails.getPatient().getFailedAttempts() > 0) {
-            patientService.resetFailedAttempts(userDetails.getUsername());
+        if (userDetails.getUser() instanceof Patient) {
+            if (((Patient) userDetails.getUser()).getFailedAttempts() > 0)
+                patientService.resetFailedAttempts(userDetails.getUsername());
         }
 
         super.onAuthenticationSuccess(request, response, authentication);

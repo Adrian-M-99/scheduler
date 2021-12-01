@@ -1,7 +1,7 @@
 package com.example.scheduler21.security;
 
-import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.entities.Role;
+import com.example.scheduler21.services.DoctorService;
 import com.example.scheduler21.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class CustomUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private DoctorService doctorService;
 
     @Autowired
     private PatientService patientService;
@@ -30,12 +33,15 @@ public class CustomUserDetailsService implements UserDetailsService {
             return User.builder().username(adminUserName).password(adminPassword).roles(Role.ADMIN.toString()).build();
         }
 
-        Patient patient = patientService.findByEmail(s);
+        com.example.scheduler21.entities.User user = patientService.findByEmail(s);
 
-        if (patient == null) {
+        if (user == null)
+            user = doctorService.findByEmail(s);
+
+        if (user == null) {
             throw new UsernameNotFoundException("User not found!");
         } else
-            return new CustomUserDetails(patient);
+            return new CustomUserDetails(user);
 
     }
 

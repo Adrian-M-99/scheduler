@@ -107,7 +107,7 @@ public class PasswordController {
                                         Authentication authentication) throws ServletException {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        Patient patient = userDetails.getPatient();
+        Patient patient = (Patient) userDetails.getUser();
 
 
         String oldPassword = request.getParameter("oldPassword");

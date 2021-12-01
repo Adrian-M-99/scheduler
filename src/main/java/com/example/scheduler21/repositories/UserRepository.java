@@ -6,4 +6,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public interface UserRepository extends JpaRepository<User, Integer> {
+    User findByEmail(String email);
 }

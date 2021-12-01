@@ -3,6 +3,7 @@ package com.example.scheduler21.security;
 import com.example.scheduler21.entities.Gender;
 import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.entities.Role;
+import com.example.scheduler21.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,15 +16,15 @@ import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
 
-    private Patient patient;
+    private User user;
 
-    public CustomUserDetails(Patient patient) {
-        this.patient = patient;
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Role role = patient.getRole();
+        Role role = user.getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority(role.toString()));
@@ -33,12 +34,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return patient.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return patient.getEmail();
+        return user.getEmail();
     }
 
     @Override
@@ -48,7 +49,10 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return patient.isAccountNonLocked();
+        if (user instanceof Patient)
+            return ((Patient) user).isAccountNonLocked();
+        else
+            return true;
     }
 
     @Override
@@ -58,35 +62,42 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return patient.isEnabled();
+        if (user instanceof Patient)
+            return ((Patient) user).isAccountNonLocked();
+        else
+            return true;
     }
 
 
     public String getFirstName() {
-        return this.patient.getFirstName();
+        return this.user.getFirstName();
     }
 
     public String getLastName() {
-        return this.patient.getLastName();
+        return this.user.getLastName();
     }
 
     public String getPhoneNumber() {
-        return this.patient.getPhoneNumber();
+        return this.user.getPhoneNumber();
     }
 
     public LocalDate getBirthday() {
-        return this.patient.getBirthday();
+        return this.user.getBirthday();
     }
 
     public Gender getGender() {
-        return this.patient.getGender();
+        return this.user.getGender();
     }
 
     public long getAge() {
-        return this.patient.getAge();
+        return this.user.getAge();
     }
 
-    public Patient getPatient() {
-        return patient;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.scheduler21.security;
 
 import com.example.scheduler21.entities.Patient;
+import com.example.scheduler21.entities.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -25,13 +26,18 @@ public class PasswordExpirationFilter implements Filter {
 
         System.out.println("PasswordExpirationFilter");
 
-        Patient patient = getLoggedInCustomer();
+        Patient patient;
 
-        if (patient != null && patient.isPasswordExpired()) {
-            displayChangePasswordPage(servletResponse, httpRequest, patient);
-        } else {
-            filterChain.doFilter(httpRequest, servletResponse);
+        if (getLoggedInCustomer() instanceof Patient) {
+            patient = (Patient) getLoggedInCustomer();
+
+            if (patient != null && patient.isPasswordExpired()) {
+                displayChangePasswordPage(servletResponse, httpRequest, patient);
+            }
         }
+
+        filterChain.doFilter(httpRequest, servletResponse);
+
     }
 
 
@@ -46,7 +52,7 @@ public class PasswordExpirationFilter implements Filter {
         httpResponse.sendRedirect(redirectURL);
     }
 
-    private Patient getLoggedInCustomer() {
+    private User getLoggedInCustomer() {
         Authentication authentication
                 = SecurityContextHolder.getContext().getAuthentication();
         Object principal = null;
@@ -57,7 +63,7 @@ public class PasswordExpirationFilter implements Filter {
 
         if (principal instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) principal;
-            return userDetails.getPatient();
+            return userDetails.getUser();
         }
 
         return null;

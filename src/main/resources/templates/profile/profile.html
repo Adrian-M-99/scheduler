@@ -17,8 +17,8 @@
     <div class="col-md-3 border-right">
       <div class="d-flex flex-column align-items-center text-center p-3 py-5">
         <img class="rounded-circle mt-5" width="150px" src="">
-        <div><span class="font-weight-bold" th:text="${patient.firstName} + ' ' + ${patient.lastName}"></span></div>
-        <div></div><span class="text-black-50" th:text="${patient.email}"></span></div>
+        <div><span class="font-weight-bold" th:text="${user.firstName} + ' ' + ${user.lastName}"></span></div>
+        <div></div><span class="text-black-50" th:text="${user.email}"></span></div>
         <span> </span></div>
     </div>
     <div class="col-md-5 border-right">
@@ -27,9 +27,9 @@
           <h4 class="text-right">Profile</h4>
         </div>
         <div class="row mt-2">
-          <div class="col-md-6"><span th:text="${patient.birthday}"></span></div>
-          <div class="col-md-6"><span th:text="${patient.gender}"></span></div>
-          <div class="col-md-6"><span th:text="${patient.phoneNumber}"></span></div>
+          <div class="col-md-6"><span th:text="${user.birthday}"></span></div>
+          <div class="col-md-6"><span th:text="${user.gender}"></span></div>
+          <div class="col-md-6"><span th:text="${user.phoneNumber}"></span></div>
         </div>
 
 <!--        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>-->
