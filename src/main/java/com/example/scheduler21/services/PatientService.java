@@ -3,6 +3,7 @@ package com.example.scheduler21.services;
 import com.example.scheduler21.entities.LoginProvider;
 import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.entities.Role;
+import com.example.scheduler21.entities.User;
 import com.example.scheduler21.exceptions.PatientNotFoundException;
 import com.example.scheduler21.repositories.PatientRepository;
 import net.bytebuddy.utility.RandomString;
@@ -41,11 +42,11 @@ public class PatientService {
 
 
     public List<Patient> findAll() {
-        return patientRepository.findAll();
+        return patientRepository.getAll();
     }
 
     public Patient findById(Integer id) {
-        return patientRepository.findById(id).orElseThrow(PatientNotFoundException::new);
+        return (Patient) patientRepository.findById(id).orElseThrow(PatientNotFoundException::new);
     }
 
     public void deleteById(Integer id) {
@@ -53,7 +54,7 @@ public class PatientService {
     }
 
     public Patient findByEmail(String email) {
-        return patientRepository.findByEmail(email);
+        return (Patient) patientRepository.getByEmail(email);
     }
 
     public void save(Patient patient) {
@@ -64,7 +65,7 @@ public class PatientService {
     //Email verification
 
     public Patient findByVerificationCode(String code) {
-        return patientRepository.findByVerificationCode(code);
+        return (Patient) patientRepository.getByVerificationCode(code);
     }
 
 
@@ -114,7 +115,7 @@ public class PatientService {
 
 
     public boolean verify(String verificationCode) {
-        Patient patient = findByVerificationCode(verificationCode);
+        Patient patient = (Patient) findByVerificationCode(verificationCode);
 
         if (patient == null || patient.isEnabled()) {
             return false;
@@ -132,7 +133,7 @@ public class PatientService {
     //Reset password email
 
     public Patient findByResetPasswordToken(String token) {
-        return patientRepository.findByResetPasswordToken(token);
+        return patientRepository.getByResetPasswordToken(token);
     }
 
     public void updateResetPasswordToken(String token, String email) throws PatientNotFoundException {
