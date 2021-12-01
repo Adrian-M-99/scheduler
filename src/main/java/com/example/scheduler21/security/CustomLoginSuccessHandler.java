@@ -4,6 +4,9 @@ import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +24,15 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        CustomUserDetails userDetails =  (CustomUserDetails) authentication.getPrincipal();
 
-        if (userDetails.getUser() instanceof Patient) {
-            if (((Patient) userDetails.getUser()).getFailedAttempts() > 0)
-                patientService.resetFailedAttempts(userDetails.getUsername());
+        if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            Patient patient = patientService.findByEmail(((CustomUserDetails) authentication.getPrincipal()).getUsername());
+
+            if (patient != null) {
+                if (patient.getFailedAttempts() > 0)
+                    patientService.resetFailedAttempts(patient.getEmail());
+            }
         }
-
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

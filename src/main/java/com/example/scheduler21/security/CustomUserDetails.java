@@ -4,6 +4,10 @@ import com.example.scheduler21.entities.Gender;
 import com.example.scheduler21.entities.Patient;
 import com.example.scheduler21.entities.Role;
 import com.example.scheduler21.entities.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,13 +18,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CustomUserDetails implements UserDetails {
 
     private User user;
-
-    public CustomUserDetails(User user) {
-        this.user = user;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -93,11 +97,5 @@ public class CustomUserDetails implements UserDetails {
         return this.user.getAge();
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
