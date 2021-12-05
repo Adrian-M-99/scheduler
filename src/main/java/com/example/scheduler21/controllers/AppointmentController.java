@@ -5,16 +5,13 @@ import com.example.scheduler21.entities.*;
 import com.example.scheduler21.services.AppointmentService;
 import com.example.scheduler21.services.DoctorService;
 import com.example.scheduler21.services.PatientService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.Doc;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +26,8 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final DoctorService doctorService;
     private final PatientService patientService;
+    private final List<LocalTime> defaultSlots = new ArrayList<>();
+
 
 
     public AppointmentController(AppointmentService appointmentService, DoctorService doctorService, PatientService patientService) {
@@ -36,6 +35,22 @@ public class AppointmentController {
         this.doctorService = doctorService;
         this.patientService = patientService;
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        defaultSlots.add(LocalTime.parse("09:00", formatter));
+        defaultSlots.add(LocalTime.parse("09:30", formatter));
+        defaultSlots.add(LocalTime.parse("10:00", formatter));
+        defaultSlots.add(LocalTime.parse("10:30", formatter));
+        defaultSlots.add(LocalTime.parse("11:00", formatter));
+        defaultSlots.add(LocalTime.parse("11:30", formatter));
+        //lunch break 12:00-13:00
+        defaultSlots.add(LocalTime.parse("13:00", formatter));
+        defaultSlots.add(LocalTime.parse("13:30", formatter));
+        defaultSlots.add(LocalTime.parse("14:00", formatter));
+        defaultSlots.add(LocalTime.parse("14:30", formatter));
+        defaultSlots.add(LocalTime.parse("15:00", formatter));
+        defaultSlots.add(LocalTime.parse("15:30", formatter));
+        defaultSlots.add(LocalTime.parse("16:00", formatter));
+        defaultSlots.add(LocalTime.parse("16:30", formatter));
     }
 
     @GetMapping
@@ -139,25 +154,7 @@ public class AppointmentController {
     private List<LocalTime> getSlots(Appointment appointment, Doctor doctor) {
         List<Appointment> appointments = appointmentService.getAppointmentsForDoctor(doctor.getId(), appointment.getScheduledDate(), Status.SCHEDULED);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-
-        List<LocalTime> slots = new ArrayList<LocalTime>();
-
-        slots.add(LocalTime.parse("09:00", formatter));
-        slots.add(LocalTime.parse("09:30", formatter));
-        slots.add(LocalTime.parse("10:00", formatter));
-        slots.add(LocalTime.parse("10:30", formatter));
-        slots.add(LocalTime.parse("11:00", formatter));
-        slots.add(LocalTime.parse("11:30", formatter));
-        //lunch break 12:00-13:00
-        slots.add(LocalTime.parse("13:00", formatter));
-        slots.add(LocalTime.parse("13:30", formatter));
-        slots.add(LocalTime.parse("14:00", formatter));
-        slots.add(LocalTime.parse("14:30", formatter));
-        slots.add(LocalTime.parse("15:00", formatter));
-        slots.add(LocalTime.parse("15:30", formatter));
-        slots.add(LocalTime.parse("16:00", formatter));
-        slots.add(LocalTime.parse("16:30", formatter));
+        List<LocalTime> slots = defaultSlots;
 
         appointments.forEach((temp) -> {
             slots.remove(temp.getScheduledTime());
