@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Files</title>
+</head>
+
+<body>
+
+<nav th:replace="layouts :: navbar"></nav>
+
+<div class="container">
+    <h3>Files Directory</h3>
+    <hr>
+
+    <a th:href="@{/files/upload}"
+       class="btn btn-primary btn-sm mb-3">
+        Add File
+    </a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Uploaded on</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${files == null}">
+            <td colspan="5"> No Files Available</td>
+        </tr>
+        <tr th:each="file : ${files}">
+            <td th:text="${file.getName()}"/>
+            <td th:text="${file.getPatient().getFirstName()} + ' ' + ${file.getPatient().getLastName()}"/>
+            <td th:text="${file.getDoctor().getFirstName()} + ' ' + ${file.getDoctor().getLastName()}"/>
+            <td th:text="${file.getUploadDate()} + ' - ' + ${file.getUploadTime()}"/>
+            <td>
+                <a th:href="@{/files/update(id=${file.getId()})}"
+                   class="btn btn-info btn-sm">
+                    Update
+                </a>
+                <a th:href="@{/files/delete(id=${file.getId()})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to delete this file?'))) return false">
+                    Delete
+                </a>
+                <a th:href="@{/files/download(id=${file.getId()})}"
+                   class="btn btn-info btn-sm">
+                    Download
+                </a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -28,6 +28,10 @@ public class Doctor extends User {
     @JsonBackReference
     private List<Appointment> appointments;
 
+    @OneToMany(mappedBy = "doctor")
+    @JsonBackReference
+    private List<File> files;
+
     public int countAppointments() {
         return this.appointments.size();
     }

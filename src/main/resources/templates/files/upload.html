@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Add File</title>
+</head>
+
+<body>
+
+<nav th:replace="layouts :: navbar"></nav>
+
+<div align="center" class="container">
+    <form class="form-horizontal" th:action="@{/files/save}" th:object="${file}" method="POST">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Add File</legend>
+
+
+<!--            &lt;!&ndash; Text input&ndash;&gt;-->
+<!--            <div class="form-group">-->
+<!--                <label class="col-md-4 control-label" for="Name">File Name</label>-->
+<!--                <div class="col-md-4">-->
+<!--                    <input id="Name" name="Name" type="text" placeholder="Name" class="form-control input-md" required="" th:field="${file.name}">-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+            <select name="patient" th:field="*{patient}">
+                <option th:each="patient : ${patients}"
+                        th:value="${patient.id}"
+                        th:text="${patient.firstName} + ' ' + ${patient.lastName}">
+                </option>
+            </select>
+
+
+
+            <select name="doctor" th:field="*{doctor}">
+                <option th:each="doctor : ${doctors}"
+                        th:value="${doctor.id}"
+                        th:text="${doctor.firstName} + ' ' + ${doctor.lastName} + ' - ' + ${doctor.department.getName()}">
+                </option>
+            </select>
+
+
+            <input type="file" name="file"/>
+
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="SubmitButton"></label>
+                <div class="col-md-4">
+                    <button id="SubmitButton" name="SubmitButton" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

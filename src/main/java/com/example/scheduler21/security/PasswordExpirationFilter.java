@@ -24,8 +24,6 @@ public class PasswordExpirationFilter implements Filter {
             return;
         }
 
-        System.out.println("PasswordExpirationFilter");
-
         Patient patient;
 
         if (getLoggedInCustomer() instanceof Patient) {

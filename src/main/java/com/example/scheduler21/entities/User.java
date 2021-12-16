@@ -10,7 +10,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
-//TODO: validators are throwing off the OAuth2; to come back to this
+//TODO: validators are throwing off the OAuth2; to come back to this;
+//TODO: try saving the Oauth2 user using NoArgsConstructor and setters
 
 @Entity
 @Getter
